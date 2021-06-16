@@ -21,7 +21,7 @@ def post(pid):
 def login():
     pass
 
-@app.route("/login_done")
+@app.route("/login_done", methods = ["GET"])
 def login_done():
     pass
 
@@ -29,9 +29,16 @@ def login_done():
 def signin():
     return render_template("signin.html")
 
-@app.route("/signin_done")
+@app.route("/signin_done", methods = ["GET"])
 def signin_done():
-    pass
+    email = request.args.get("email")
+    uid = request.args.get("uid")
+    pwd = request.args.get("pwd")
+    name = request.args.get("name")
+    if DB.signin(email = email, _id_ = uid, pwd = pwd, name = name):
+        return redirect(url_for("index"))
+    else:
+        return redirect(url_for("signin"))
 
 @app.route("/user/<uid>")
 def user(uid):
